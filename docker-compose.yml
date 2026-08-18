@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: datlichthethao
+      MYSQL_USER: webuser
+      MYSQL_PASSWORD: webpass
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/datlichthethao.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "3306:3306"
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: datlichthethao
+      DB_USER: webuser
+      DB_PASS: webpass
+volumes:
+  db_data:

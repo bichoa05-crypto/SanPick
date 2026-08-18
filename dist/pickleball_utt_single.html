@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PickleBall UTT - Static Snapshot</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+/* inlined from assets/css/index.css (trimmed for brevity) */
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Plus Jakarta Sans',sans-serif;background:#90c6ea;color:#1a2e3b;line-height:1.5}.container{width:100%;padding:0 40px}@media (max-width:768px){.container{padding:0 20px}}.header{display:flex;align-items:center;justify-content:space-between;padding:18px 0;flex-wrap:wrap;gap:16px}.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.9rem;color:#0a3b3b}.nav-links{display:flex;gap:36px;font-weight:600}.nav-links a{cursor:pointer;text-decoration:none;color:#2c4c5c;font-size:1.05rem}.nav-links a.active{color:#e76f51}.user-actions{display:flex;gap:12px}.btn-outline{background:transparent;border:2px solid #0a3b3b;color:#0a3b3b;padding:10px 22px;border-radius:40px;font-weight:700;cursor:pointer;transition:0.2s}.btn-primary{background:#e76f51;border:none;color:white;padding:10px 26px;border-radius:40px;font-weight:700;cursor:pointer;box-shadow:0 8px 14px rgba(231,111,81,0.25);transition:0.2s}.location-bar{background:white;border-radius:60px;padding:8px 8px 8px 24px;margin:24px 0 32px;display:flex;align-items:center;flex-wrap:wrap;box-shadow:0 8px 24px rgba(0,0,0,0.04);border:1px solid #dde9e5}.facility-btn{background:#f0f5f3;border:none;padding:12px 24px;border-radius:40px;font-weight:600;font-size:1rem;color:#1e3b44;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:10px}.facility-btn.active{background:#0a3b3b;color:white}.facility-info-card{background:white;border-radius:32px;padding:28px 32px;margin-bottom:32px;box-shadow:0 12px 28px rgba(0,0,0,0.03);border:1px solid #e2eee9;display:flex;flex-wrap:wrap;gap:30px}.main-photo{background:#cbdad4;border-radius:24px;height:220px;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:16px;color:white;font-weight:700;text-shadow:0 2px 6px rgba(0,0,0,0.3);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.2)}.facility-name{font-size:2rem;font-weight:800;color:#0a3b3b;display:flex;align-items:center;gap:16px;flex-wrap:wrap}.court-filter{display:flex;gap:12px;margin-bottom:20px;padding:0 40px;flex-wrap:wrap}.filter-chip{background:white;border:1px solid #cde0d9;padding:10px 20px;border-radius:40px;font-weight:600;cursor:pointer}.filter-chip.active{background:#0a3b3b;color:white;border-color:#0a3b3b}.time-slots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px;margin:24px 0 40px;padding:0px 40px}.slot-card{background:white;border-radius:20px;padding:20px 16px;box-shadow:0 4px 10px rgba(0,0,0,0.02);border:1px solid #e2eee9;text-align:center;transition:all 0.2s;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;max-height:200px}.slot-card h3{margin-bottom:8px}.footer{padding:20px;text-align:center;margin-top:40px}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <img id="logoImg" src="../assets/img/logo.png" alt="logo" style="width:80px;height:80px;margin-right:8px">
+        <span>PickleBall UTT</span>
+      </div>
+      <nav class="nav-links">
+        <a class="active">Đặt Sân</a>
+        <a id="infoLink">Thông Tin Cơ Sở</a>
+      </nav>
+      <div class="user-actions">
+        <button class="btn-outline"><i class="far fa-user"></i> Đăng nhập</button>
+        <button class="btn-primary">Đăng ký</button>
+      </div>
+    </header>
+
+    <div class="location-bar">
+      <div class="location-label"><i class="fas fa-map-pin"></i><span style="margin-left:6px;font-weight:700">Cơ Sở:</span></div>
+      <div class="facility-tabs" id="facilityTabs"></div>
+      <div class="quick-date"><i class="fas fa-calendar-alt"></i><span id="currentDate" style="margin-left:8px;font-weight:600"></span></div>
+    </div>
+
+    <div class="facility-info-card" id="facilityInfo"></div>
+
+    <div class="booking-header" style="margin-top:10px">
+      <h2 style="font-weight:800;color:#0a3b3b"><i class="fas fa-calendar-day" style="margin-right:12px"></i>Chọn Sân</h2>
+      <div class="booking-tools"></div>
+    </div>
+
+    <div style="margin:10px 40px 0;font-weight:600"><i class="fas fa-map-marker-alt"></i> Khu Vực:</div>
+    <div class="court-type-filter" id="areaContainer" style="padding:0 40px;margin-bottom:10px"></div>
+
+    <div style="margin:10px 40px 0;font-weight:600"><i class="fas fa-map"></i> Sân:</div>
+    <div class="court-filter" id="courtContainer"></div>
+
+    <div style="margin:10px 40px 0;font-weight:600"><i class="fas fa-clock"></i> Khung Giờ:</div>
+    <div class="time-slots-grid" id="timeSlotsContainer"></div>
+
+    <footer class="footer">PickleBall UTT – Chuỗi sân PickleBall chuyên nghiệp</footer>
+  </div>
+
+  <script>
+    // Static sample data to simulate API
+    const sampleFacilities = [
+      {co_so_id:1, ten_co_so:'PickleCenter 1', dia_chi:'123 Đ. Thống Nhất', anh_bia:'../assets/img/cs_1777639568.jpg'},
+      {co_so_id:2, ten_co_so:'PickleCenter 2', dia_chi:'45 Lê Lợi', anh_bia:'../assets/img/cs1_1777639541_809.jpg'},
+      {co_so_id:3, ten_co_so:'PickleCenter 3', dia_chi:'89 Hai Bà Trưng', anh_bia:'../assets/img/cs2_1777639583_383.jpg'}
+    ];
+
+    const sampleAreas = {
+      1: [{khu_vuc_id:11,ten_kv:'Sân trong nhà'},{khu_vuc_id:12,ten_kv:'Sân ngoài trời'}],
+      2: [{khu_vuc_id:21,ten_kv:'Sân sân số 1'},{khu_vuc_id:22,ten_kv:'Sân sân số 2'}],
+      3: [{khu_vuc_id:31,ten_kv:'Sân chính'},{khu_vuc_id:32,ten_kv:'Sân phụ'}]
+    };
+
+    const sampleCourts = {
+      11:[{san_id:111,ten_san:'Court A'},{san_id:112,ten_san:'Court B'}],
+      12:[{san_id:121,ten_san:'Court C'}],
+      21:[{san_id:211,ten_san:'Court D'},{san_id:212,ten_san:'Court E'}],
+      31:[{san_id:311,ten_san:'Court F'}]
+    };
+
+    function formatDate(date){return date.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'})}
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+    function renderFacilityTabs(){
+      const tabs = document.getElementById('facilityTabs');
+      tabs.innerHTML='';
+      sampleFacilities.forEach((f,i)=>{
+        const btn = document.createElement('button'); btn.className='facility-btn'+(i===0?' active':''); btn.textContent=f.ten_co_so; btn.dataset.coSoId=f.co_so_id;
+        btn.addEventListener('click',()=>{document.querySelectorAll('.facility-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active'); loadFacilityInfo(f.co_so_id); loadArea(f.co_so_id);});
+        tabs.appendChild(btn);
+      });
+      loadFacilityInfo(sampleFacilities[0].co_so_id);
+      loadArea(sampleFacilities[0].co_so_id);
+    }
+
+    function loadFacilityInfo(co_so_id){
+      const f = sampleFacilities.find(x=>x.co_so_id==co_so_id);
+      const info = document.getElementById('facilityInfo');
+      info.innerHTML = `<div class="facility-gallery"><div class="main-photo" style="background-image:url('${f.anh_bia}')"><span><i class="fas fa-camera"></i> ${f.ten_co_so}</span></div></div><div class="facility-details"><div class="facility-name">${f.ten_co_so}</div><div class="facility-address"><i class="fas fa-map-marker-alt"></i> ${f.dia_chi}</div></div>`;
+    }
+
+    function loadArea(co_so_id){
+      const areas = sampleAreas[co_so_id]||[]; currentKhuVucId = areas.length?areas[0].khu_vuc_id:null;
+      const container = document.getElementById('areaContainer'); container.innerHTML='';
+      areas.forEach((a,i)=>{const chip=document.createElement('div');chip.className='filter-chip'+(i===0?' active':'');chip.textContent=a.ten_kv;chip.dataset.khuVucId=a.khu_vuc_id;chip.addEventListener('click',()=>{container.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');loadCourts(a.khu_vuc_id);});container.appendChild(chip);});
+      loadCourts(currentKhuVucId);
+    }
+
+    function loadCourts(khu_vuc_id){
+      const courts = sampleCourts[khu_vuc_id]||[];
+      const ctn = document.getElementById('courtContainer'); ctn.innerHTML='';
+      courts.forEach((s,i)=>{const chip=document.createElement('div');chip.className='filter-chip'+(i===0?' active':'');chip.textContent=s.ten_san;chip.dataset.sanId=s.san_id;chip.addEventListener('click',()=>{ctn.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');reloadTimeSlots();});ctn.appendChild(chip);});
+      reloadTimeSlots();
+    }
+
+    function reloadTimeSlots(){
+      const slots = document.getElementById('timeSlotsContainer'); slots.innerHTML='';
+      for(let i=9;i<=20;i++){const card=document.createElement('div');card.className='slot-card';card.innerHTML=`<h3>${i}:00 - ${i+1}:00</h3><div style="font-weight:700;color:#0a3b3b;margin-top:8px">Giá: 200k</div><button style="margin-top:12px;padding:8px 12px;border-radius:8px;border:none;background:#e76f51;color:#fff;cursor:pointer">Đặt</button>`;slots.appendChild(card);}    }
+
+    let currentKhuVucId = null; renderFacilityTabs();
+  </script>
+</body>
+</html>

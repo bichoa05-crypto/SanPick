@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: WebDatSanPic
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    branch: main
+    buildCommand: ''
+    startCommand: ''
+    regions:
+      - oregon
+    envVars:
+      - key: DB_HOST
+        value: db
+      - key: DB_NAME
+        value: datlichthethao
+      - key: DB_USER
+        value: webuser
+      - key: DB_PASS
+        value: webpass
